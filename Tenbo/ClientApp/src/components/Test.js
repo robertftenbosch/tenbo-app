@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import React, {Fragment} from 'react';
+import {Avatar, Button, TextField} from '@material-ui/core';
 import TenboAppBar from "./TenboAppbar";
 function Test() {
     return (
@@ -7,6 +7,8 @@ function Test() {
             <TenboAppBar>
                 
             </TenboAppBar>
+            <Avatar alt="test">
+            </Avatar>
             <Button>TEst</Button>
             <TextField>
                 

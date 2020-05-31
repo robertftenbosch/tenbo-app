@@ -21,12 +21,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest"/>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="ClientApp\src\components\Copyright.ts" />
     </ItemGroup>
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="$(SpaRoot)**" />
-        <Content Include="ClientApp\src\components\TenboAppbar.js" />
+        <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenuTs.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\TenboAppbar.tsx" />
         <Content Include="ClientApp\src\components\Test.js" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
