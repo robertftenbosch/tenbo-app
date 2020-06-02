@@ -22,6 +22,7 @@ export class Logout extends Component {
         const action = this.props.action;
         switch (action) {
             case LogoutActions.Logout:
+                console.info(window.history);
                 if (!!window.history.state.state.local) {
                     this.logout(this.getReturnUrl());
                 } else {

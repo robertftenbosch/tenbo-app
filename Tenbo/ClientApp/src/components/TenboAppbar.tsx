@@ -1,11 +1,12 @@
-import React from 'react';
-import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import React, {useEffect, useState} from 'react';
+import {fade, makeStyles, Theme, createStyles, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
+import clsx from 'clsx';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -15,7 +16,14 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import LoginMenu from "./api-authorization/LoginMenuTs";
+import authService from "./api-authorization/AuthorizeService";
+import AutoCompleteAsync from "./AutoCompleteAsync";
+import {CssBaseline, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
 
+const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         grow: {
@@ -79,13 +87,94 @@ const useStyles = makeStyles((theme: Theme) =>
                 display: 'none',
             },
         },
+        root: {
+            display: 'flex',
+        },
+        appBar: {
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+        },
+        appBarShift: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+        hide: {
+            display: 'none',
+        },
+        drawer: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
+        drawerPaper: {
+            width: drawerWidth,
+        },
+        drawerHeader: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: theme.spacing(0, 1),
+            // necessary for content to be below app bar
+            ...theme.mixins.toolbar,
+            justifyContent: 'flex-end',
+        },
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            marginLeft: -drawerWidth,
+        },
+        contentShift: {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        },
     }),
 );
 
-export default function PrimarySearchAppBar() {
+export default function TenboAppbar() {
+    const [username, setUsername] = useState("hey stranger!");
+    const [numberOfMail, setNumberOfMail] = useState(9);
+    const [numberOfBelIcon, setNumberOfBelIcon] = useState(1);
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        let subscription = authService.subscribe(() => getUser());
+        getUser();
+        const numberOfMail = Math.ceil(Math.random() * 10);
+        setNumberOfMail(numberOfMail);
+        const numberOfBell = Math.ceil(Math.random() * 10);
+        setNumberOfBelIcon(numberOfBell);
+        return function cleanup() {
+            authService.unsubscribe(subscription);
+        }
+    });
+
+    async function getUser() {
+        const user = await authService.getUser()
+        setUsername(user && user.name);
+    }
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -118,7 +207,7 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Profile {username}</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
@@ -135,8 +224,11 @@ export default function PrimarySearchAppBar() {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
+                <LoginMenu/>
+            </MenuItem>
+            <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={numberOfMail} color="secondary">
                         <MailIcon/>
                     </Badge>
                 </IconButton>
@@ -144,7 +236,7 @@ export default function PrimarySearchAppBar() {
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
+                    <Badge badgeContent={numberOfBelIcon} color="secondary">
                         <NotificationsIcon/>
                     </Badge>
                 </IconButton>
@@ -159,48 +251,48 @@ export default function PrimarySearchAppBar() {
                 >
                     <AccountCircle/>
                 </IconButton>
-                <p>Profile</p>
+                <p>Profile {username}</p>
+
             </MenuItem>
+
         </Menu>
     );
 
     return (
+
         <div className={classes.grow}>
-            <AppBar position="static">
+            <CssBaseline/>
+            <AppBar position="static" className={clsx(classes.appBar, {
+                [classes.appBarShift]: open,
+            })}>
                 <Toolbar>
                     <IconButton
                         edge="start"
-                        className={classes.menuButton}
+                        className={clsx(classes.menuButton, open && classes.hide)}
                         color="inherit"
+                        onClick={handleDrawerOpen}
                         aria-label="open drawer"
                     >
                         <MenuIcon/>
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Material-UI
+                        Tenbo
                     </Typography>
                     <div className={classes.search}>
+                        <AutoCompleteAsync/>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{'aria-label': 'search'}}
-                        />
                     </div>
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="secondary">
+                            <Badge badgeContent={numberOfMail} color="secondary">
                                 <MailIcon/>
                             </Badge>
                         </IconButton>
                         <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
+                            <Badge badgeContent={numberOfBelIcon} color="secondary">
                                 <NotificationsIcon/>
                             </Badge>
                         </IconButton>
@@ -230,6 +322,39 @@ export default function PrimarySearchAppBar() {
                     </div>
                 </Toolbar>
             </AppBar>
+            <Drawer
+                className={classes.drawer}
+                variant="persistent"
+                anchor="left"
+                open={open}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                        <ListItem button key={text}>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
+                <Divider />
+                <List>
+                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                        <ListItem button key={text}>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
             {renderMobileMenu}
             {renderMenu}
         </div>

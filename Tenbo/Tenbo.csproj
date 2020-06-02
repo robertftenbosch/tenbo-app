@@ -28,6 +28,7 @@
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="$(SpaRoot)**" />
         <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenuTs.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\AutoCompleteAsync.tsx" />
         <TypeScriptCompile Include="ClientApp\src\components\TenboAppbar.tsx" />
         <Content Include="ClientApp\src\components\Test.js" />
         <None Remove="$(SpaRoot)**" />

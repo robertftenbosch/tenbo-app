@@ -1,10 +1,12 @@
-import React, {Component, Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import authService from './AuthorizeService';
 import {ApplicationPaths} from './ApiAuthorizationConstants';
-import {Avatar, IconButton, Link} from "@material-ui/core";
-
-import { makeStyles } from '@material-ui/core/styles';
-import { deepOrange, deepPurple ,common} from '@material-ui/core/colors';
+import {Avatar, IconButton} from "@material-ui/core";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {makeStyles} from '@material-ui/core/styles';
+import {common, deepOrange, deepPurple} from '@material-ui/core/colors';
+import {Link} from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,9 +46,9 @@ export default function LoginMenu() {
 
     async function populateState() {
         const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()]);
-        setIsAuthenticated(isAuthenticated)
-        setUsername(user && user.name)
-
+        setIsAuthenticated(isAuthenticated);
+        console.log(user);
+        setUsername(user && user.name);
     }
 
     function Authenticated() {
@@ -54,9 +56,12 @@ export default function LoginMenu() {
         const logoutPath = {pathname: `${ApplicationPaths.LogOut}`, state: {local: true}};
         return (
             <Fragment>
-                <Avatar className={classes.white} alt={username}>
-                </Avatar>
-                <Link href={logoutPath.pathname}>logout</Link>
+                <Link to={profilePath}> hello {username}
+                </Link>
+                <IconButton  color="inherit">
+                    <Link to={logoutPath}> logout
+                   </Link>
+                </IconButton>
             </Fragment>
         );
     }
@@ -66,11 +71,11 @@ export default function LoginMenu() {
         const loginPath = `${ApplicationPaths.Login}`;
         return (
             <Fragment>
-                <IconButton>
-                    <Link href={registerPath}>Register</Link>
+                <IconButton  size={"small"}>
+                    <Link to={registerPath}>Register</Link>
                 </IconButton>
-                <IconButton>
-                    <Link href={loginPath}>login</Link>
+                <IconButton size={"small"}>
+                    <Link to={loginPath}>login</Link>
                 </IconButton>
             </Fragment>);
     }
