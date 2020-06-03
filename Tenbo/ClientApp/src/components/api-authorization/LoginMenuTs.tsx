@@ -42,7 +42,7 @@ export default function LoginMenu() {
             authService.unsubscribe(subscription);
         }
 
-    });
+    }, []);
 
     async function populateState() {
         const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()]);

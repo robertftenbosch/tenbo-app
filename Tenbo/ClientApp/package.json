@@ -23,7 +23,8 @@
     "reactstrap": "^8.4.1",
     "rimraf": "^2.6.2",
     "cross-fetch": "latest",
-    "@material-ui/lab": "latest"
+    "@material-ui/lab": "latest",
+    "swagger-client": "latest"
   },
   "devDependencies": {
     "ajv": "^6.9.1",

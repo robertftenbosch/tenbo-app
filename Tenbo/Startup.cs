@@ -11,6 +11,9 @@ using Tenbo.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using Microsoft.OpenApi.Models;
 
 namespace Tenbo
 {
@@ -26,6 +29,7 @@ namespace Tenbo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -38,10 +42,10 @@ namespace Tenbo
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Tenbo", Version = "v1"}); });
             services.AddControllersWithViews();
             services.AddRazorPages();
-
+            services.AddHangfire(c => c.UseMemoryStorage());
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -66,10 +70,14 @@ namespace Tenbo
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My AAPI V1"); });
 
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

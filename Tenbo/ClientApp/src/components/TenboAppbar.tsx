@@ -22,6 +22,7 @@ import {CssBaseline, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import {Link} from "react-router-dom";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -169,7 +170,7 @@ export default function TenboAppbar() {
         return function cleanup() {
             authService.unsubscribe(subscription);
         }
-    });
+    }, []);
 
     async function getUser() {
         const user = await authService.getUser()
@@ -278,13 +279,14 @@ export default function TenboAppbar() {
                     <Typography className={classes.title} variant="h6" noWrap>
                         Tenbo
                     </Typography>
+                   
+                    <div className={classes.grow}/>
                     <div className={classes.search}>
                         <AutoCompleteAsync/>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>
                     </div>
-                    <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={numberOfMail} color="secondary">
@@ -354,6 +356,7 @@ export default function TenboAppbar() {
                         </ListItem>
                     ))}
                 </List>
+                <Divider />
             </Drawer>
             {renderMobileMenu}
             {renderMenu}
