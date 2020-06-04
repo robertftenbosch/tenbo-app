@@ -16,6 +16,6 @@ export default function TenboApiService() {
         })
     }
     return createClient().then(function (client) {
-        return client.apis
+        return client.apis;
     })
 }

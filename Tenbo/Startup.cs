@@ -33,7 +33,7 @@ namespace Tenbo
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<TenboContext>(options => options.UseInMemoryDatabase(databaseName: "tenbo"));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -48,6 +48,9 @@ namespace Tenbo
             services.AddHangfire(c => c.UseMemoryStorage());
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
+            // services.AddDbContext<TenboContext>(options =>
+            //         options.UseSqlServer(Configuration.GetConnectionString("TenboContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
