@@ -12,48 +12,48 @@ namespace Tenbo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TagController : ControllerBase
+    public class TenboActionController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public TagController(ApplicationDbContext context)
+        public TenboActionController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Tag
+        // GET: api/TenboAction
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tag>>> GetTag()
+        public async Task<ActionResult<IEnumerable<TenboAction>>> GetAction()
         {
-            return await _context.Tag.ToListAsync();
+            return await _context.Action.ToListAsync();
         }
 
-        // GET: api/Tag/5
+        // GET: api/TenboAction/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tag>> GetTag(Guid id)
+        public async Task<ActionResult<TenboAction>> GetTenboAction(Guid id)
         {
-            var tag = await _context.Tag.FindAsync(id);
+            var tenboAction = await _context.Action.FindAsync(id);
 
-            if (tag == null)
+            if (tenboAction == null)
             {
                 return NotFound();
             }
 
-            return tag;
+            return tenboAction;
         }
 
-        // PUT: api/Tag/5
+        // PUT: api/TenboAction/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTag(Guid id, Tag tag)
+        public async Task<IActionResult> PutTenboAction(Guid id, TenboAction tenboAction)
         {
-            if (id != tag.Id)
+            if (id != tenboAction.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(tag).State = EntityState.Modified;
+            _context.Entry(tenboAction).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace Tenbo.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TagExists(id))
+                if (!TenboActionExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace Tenbo.Controllers
             return NoContent();
         }
 
-        // POST: api/Tag
+        // POST: api/TenboAction
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Tag>> PostTag(Tag tag)
+        public async Task<ActionResult<TenboAction>> PostTenboAction(TenboAction tenboAction)
         {
-            _context.Tag.Add(tag);
+            _context.Action.Add(tenboAction);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTag", new { id = tag.Id }, tag);
+            return CreatedAtAction("GetTenboAction", new { id = tenboAction.Id }, tenboAction);
         }
 
-        // DELETE: api/Tag/5
+        // DELETE: api/TenboAction/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Tag>> DeleteTag(Guid id)
+        public async Task<ActionResult<TenboAction>> DeleteTenboAction(Guid id)
         {
-            var tag = await _context.Tag.FindAsync(id);
-            if (tag == null)
+            var tenboAction = await _context.Action.FindAsync(id);
+            if (tenboAction == null)
             {
                 return NotFound();
             }
 
-            _context.Tag.Remove(tag);
+            _context.Action.Remove(tenboAction);
             await _context.SaveChangesAsync();
 
-            return tag;
+            return tenboAction;
         }
 
-        private bool TagExists(Guid id)
+        private bool TenboActionExists(Guid id)
         {
-            return _context.Tag.Any(e => e.Id == id);
+            return _context.Action.Any(e => e.Id == id);
         }
     }
 }

@@ -24,7 +24,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
@@ -34,17 +34,29 @@
     <ItemGroup>
         <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
         <None Include="ClientApp\src\components\Copyright.ts" />
+        <None Include="ClientApp\src\components\FetchMovieData.js" />
+        <None Include="ClientApp\src\components\Table\FetchMovieData.js" />
     </ItemGroup>
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="$(SpaRoot)**" />
+        <Content Include="ClientApp\.env" />
+        <Content Include="ClientApp\src\components\Editor\TenboEditor.js" />
+        <Content Include="ClientApp\src\services\TenboApiService.js" />
         <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenuTs.tsx" />
         <TypeScriptCompile Include="ClientApp\src\components\AutoCompleteAsync.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\Charts\MockDataChart.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\Goal\CreateGoal.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\Goal\CreateGoalForm.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\Misc\TenboTitle.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\TenboFooter.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\Goal\GoalGridCard.tsx" />
+        <TypeScriptCompile Include="ClientApp\src\components\Goal\GoalGrid.tsx" />
         <TypeScriptCompile Include="ClientApp\src\components\TenboAppbar.tsx" />
-        <Content Include="ClientApp\src\components\TenboApiService.js" />
-        <Content Include="ClientApp\src\components\Test.js" />
+        <Content Include="ClientApp\src\components\Goal\Goals.js" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+        <TypeScriptCompile Include="ClientApp\src\models\Goal.ts" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

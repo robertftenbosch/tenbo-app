@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import authService from './api-authorization/AuthorizeService'
-import TenboApiService from "./TenboApiService";
+import  {WeatherForecastApi} from "../services/TenboApiService";
 
 export class FetchData extends Component {
     static displayName = FetchData.name;
@@ -55,9 +54,9 @@ export class FetchData extends Component {
 
 
     async populateWeatherData() {
-        const api = await TenboApiService();
+        const api = await WeatherForecastApi();
         console.log(api);
-        let response = await api.WeatherForecast.get_WeatherForecast();
+        let response = await api.get_WeatherForecast();
         
         this.setState({forecasts: response.body, loading: false});
     }

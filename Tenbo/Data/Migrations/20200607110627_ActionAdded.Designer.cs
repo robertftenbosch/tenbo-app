@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tenbo.Data;
 
 namespace Tenbo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200607110627_ActionAdded")]
+    partial class ActionAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,6 +232,34 @@ namespace Tenbo.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Tenbo.Models.Action", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ObjectiveId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObjectiveId");
+
+                    b.ToTable("Action");
+                });
+
             modelBuilder.Entity("Tenbo.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -365,34 +395,6 @@ namespace Tenbo.Data.Migrations
                     b.ToTable("Tag");
                 });
 
-            modelBuilder.Entity("Tenbo.Models.TenboAction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CompletedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("ObjectiveId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Summary")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ObjectiveId");
-
-                    b.ToTable("Action");
-                });
-
             modelBuilder.Entity("Tenbo.Models.TenboTag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -466,18 +468,18 @@ namespace Tenbo.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Tenbo.Models.Action", b =>
+                {
+                    b.HasOne("Tenbo.Models.Objective", null)
+                        .WithMany("Actions")
+                        .HasForeignKey("ObjectiveId");
+                });
+
             modelBuilder.Entity("Tenbo.Models.Objective", b =>
                 {
                     b.HasOne("Tenbo.Models.Goal", null)
                         .WithMany("Objectives")
                         .HasForeignKey("GoalId");
-                });
-
-            modelBuilder.Entity("Tenbo.Models.TenboAction", b =>
-                {
-                    b.HasOne("Tenbo.Models.Objective", null)
-                        .WithMany("Actions")
-                        .HasForeignKey("ObjectiveId");
                 });
 
             modelBuilder.Entity("Tenbo.Models.TenboTag", b =>

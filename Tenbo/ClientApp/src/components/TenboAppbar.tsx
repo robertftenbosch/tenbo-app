@@ -23,7 +23,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import {Link} from "react-router-dom";
-
+import WorkIcon from '@material-ui/icons/Work';
+import ListIcon from '@material-ui/icons/List';
+import CreateIcon from '@material-ui/icons/Create';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -277,7 +279,7 @@ export default function TenboAppbar() {
                         <MenuIcon/>
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Tenbo
+                        <Link to="/">Tenbo</Link>
                     </Typography>
                    
                     <div className={classes.grow}/>
@@ -340,7 +342,19 @@ export default function TenboAppbar() {
                 </div>
                 <Divider />
                 <List>
-                    {['Goals', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    <ListItem button key={"Goals"} component={Link} to="/goals" >
+                        <ListItemIcon><WorkIcon /> </ListItemIcon>
+                        <ListItemText primary={"Goals"} />
+                    </ListItem>
+                    <ListItem button key={"Tables"} component={Link} to="/table" >
+                        <ListItemIcon><ListIcon /> </ListItemIcon>
+                        <ListItemText primary={"Tables"} />
+                    </ListItem>
+                    <ListItem button key={"Editor"} component={Link} to="/editor" >
+                        <ListItemIcon><CreateIcon /> </ListItemIcon>
+                        <ListItemText primary={"Editor"} />
+                    </ListItem>
+                    {['Starred', 'Send email', 'Drafts'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={text} />

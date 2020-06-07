@@ -10,6 +10,7 @@ namespace Tenbo.Models
         public string Motivation { get; set; }
         public string Purpose { get; set; }
         public DateTime StartDate { get; set; }
+        public bool IsActive { get; set; }
         public List<Objective> Objectives { get; set; }
     }
 }

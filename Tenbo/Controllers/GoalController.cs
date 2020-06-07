@@ -11,27 +11,31 @@ using Tenbo.Models;
 
 namespace Tenbo.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class GoalController : ControllerBase
     {
-        private readonly TenboContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public GoalController(TenboContext context)
+        public GoalController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/Goal
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Goal>>> GetGoal()
+        [HttpGet(Name = nameof(GetGoals) )]
+        [ProducesResponseType(typeof(List<Goal>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<Goal>>> GetGoals()
         {
-            return await _context.Goal.ToListAsync();
+            return await _context.Goal.Include(x => x.Objectives).ToListAsync();
         }
 
         // GET: api/Goal/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = nameof(GetGoal))]
+        [ProducesResponseType(typeof(Goal), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Goal>> GetGoal(Guid id)
         {
             var goal = await _context.Goal.FindAsync(id);
@@ -47,7 +51,11 @@ namespace Tenbo.Controllers
         // PUT: api/Goal/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPut("{id}", Name = nameof(PutGoal))]
         public async Task<IActionResult> PutGoal(Guid id, Goal goal)
         {
             if (id != goal.Id)
@@ -76,12 +84,11 @@ namespace Tenbo.Controllers
             return NoContent();
         }
 
-        // POST: api/Goal
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPost(Name =nameof(PostGoal))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Goal>> PostGoal(Goal goal)
         {
+            goal.IsActive = true;
             _context.Goal.Add(goal);
             await _context.SaveChangesAsync();
 
@@ -89,7 +96,9 @@ namespace Tenbo.Controllers
         }
 
         // DELETE: api/Goal/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = nameof(DeleteGoal))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Goal>> DeleteGoal(Guid id)
         {
             var goal = await _context.Goal.FindAsync(id);

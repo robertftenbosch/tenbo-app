@@ -11,7 +11,9 @@ import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizat
 import {ApplicationPaths} from './components/api-authorization/ApiAuthorizationConstants';
 
 import './custom.css'
-import Test from "./components/Test";
+import Goals from "./components/Goal/Goals";
+import MockTable from "./components/Table/MockTable";
+import TenboEditor from "./components/Editor/TenboEditor";
 
 export default class App extends Component {
     static displayName = App.name;
@@ -21,12 +23,12 @@ export default class App extends Component {
             <div>
                 <Layout>
                     <Route exact path='/' component={Home}/>
-                    <Route path='/counter' component={Counter}/>
-                    <Route path='/test' component={Test}/>
+                    <Route exact path='/table' component={MockTable}/>
+                    <Route exact path='/editor' component={TenboEditor}/>
+                    <AuthorizeRoute path='/goals' component={Goals}/>
                     <AuthorizeRoute path='/fetch-data' component={FetchData}/>
                     <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes}/>
                 </Layout>
-                <TenboCopyright/>
             </div>
 
         );

@@ -16,9 +16,9 @@ namespace Tenbo.Controllers
     [ApiController]
     public class ObjectiveController : ControllerBase
     {
-        private readonly TenboContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ObjectiveController(TenboContext context)
+        public ObjectiveController(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -14,9 +14,9 @@ namespace Tenbo.Controllers
     [ApiController]
     public class TenboTagController : ControllerBase
     {
-        private readonly TenboContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public TenboTagController(TenboContext context)
+        public TenboTagController(ApplicationDbContext context)
         {
             _context = context;
         }

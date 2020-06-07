@@ -47,7 +47,6 @@ export default function LoginMenu() {
     async function populateState() {
         const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()]);
         setIsAuthenticated(isAuthenticated);
-        console.log(user);
         setUsername(user && user.name);
     }
 
