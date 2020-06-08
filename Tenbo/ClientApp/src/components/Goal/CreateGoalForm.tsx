@@ -92,9 +92,9 @@ export default function CreateGoalForm(props: any) {
                 purpose: purpose,
                 startDate: startDate
             },
-            server: window.location.origin, // this should exactly match a URL in your `servers`
+            server: window.location.origin, 
         }).then((resp: any) => {
-                console.log(resp)
+                console.log(resp);
                 window.location.reload();
 
             }

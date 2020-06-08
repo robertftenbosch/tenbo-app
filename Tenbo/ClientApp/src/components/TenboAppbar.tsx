@@ -26,6 +26,7 @@ import {Link} from "react-router-dom";
 import WorkIcon from '@material-ui/icons/Work';
 import ListIcon from '@material-ui/icons/List';
 import CreateIcon from '@material-ui/icons/Create';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -353,6 +354,10 @@ export default function TenboAppbar() {
                     <ListItem button key={"Editor"} component={Link} to="/editor" >
                         <ListItemIcon><CreateIcon /> </ListItemIcon>
                         <ListItemText primary={"Editor"} />
+                    </ListItem>
+                    <ListItem button key={"Financial"} component={Link} to="/editor" >
+                        <ListItemIcon><AccountBalanceIcon /> </ListItemIcon>
+                        <ListItemText primary={"Financial"} />
                     </ListItem>
                     {['Starred', 'Send email', 'Drafts'].map((text, index) => (
                         <ListItem button key={text}>
