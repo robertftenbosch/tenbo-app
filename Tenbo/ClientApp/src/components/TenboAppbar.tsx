@@ -27,6 +27,9 @@ import WorkIcon from '@material-ui/icons/Work';
 import ListIcon from '@material-ui/icons/List';
 import CreateIcon from '@material-ui/icons/Create';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import GridOnIcon from '@material-ui/icons/GridOn';
+import VideoCallIcon from '@material-ui/icons/VideoCall';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -358,6 +361,22 @@ export default function TenboAppbar() {
                     <ListItem button key={"Financial"} component={Link} to="/editor" >
                         <ListItemIcon><AccountBalanceIcon /> </ListItemIcon>
                         <ListItemText primary={"Financial"} />
+                    </ListItem>
+                    <ListItem button key={"TrelloClone"} component={Link} to="/quote-list" >
+                        <ListItemIcon><InboxIcon /> </ListItemIcon>
+                        <ListItemText primary={"TrelloClone"} />
+                    </ListItem>
+                    <ListItem button key={"Calendar"} component={Link} to="/calendar" >
+                        <ListItemIcon><CalendarTodayIcon /> </ListItemIcon>
+                        <ListItemText primary={"Calendar"} />
+                    </ListItem>
+                    <ListItem button key={"Grid"} component={Link} to="/tenbo-grid" >
+                        <ListItemIcon><GridOnIcon /> </ListItemIcon>
+                        <ListItemText primary={"Grid"} />
+                    </ListItem>
+                    <ListItem button key={"VideoChat"} component={Link} to="/video-chat" >
+                        <ListItemIcon><VideoCallIcon /> </ListItemIcon>
+                        <ListItemText primary={"VideoChat"} />
                     </ListItem>
                     {['Starred', 'Send email', 'Drafts'].map((text, index) => (
                         <ListItem button key={text}>

@@ -41,7 +41,14 @@
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="$(SpaRoot)**" />
         <Content Include="ClientApp\.env" />
+        <Content Include="ClientApp\src\App.css" />
+        <Content Include="ClientApp\src\components\Calendar\TenboCalendar.js" />
         <Content Include="ClientApp\src\components\Editor\TenboEditor.js" />
+        <Content Include="ClientApp\src\components\Grid\TenboGrid.js" />
+        <Content Include="ClientApp\src\components\Login\SignIn.js" />
+        <Content Include="ClientApp\src\components\TrelloClone.js" />
+        <Content Include="ClientApp\src\components\VideoChat\Messages.js" />
+        <Content Include="ClientApp\src\components\VideoChat\VideoChat.js" />
         <Content Include="ClientApp\src\services\TenboApiService.js" />
         <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenuTs.tsx" />
         <TypeScriptCompile Include="ClientApp\src\components\AutoCompleteAsync.tsx" />
@@ -57,6 +64,9 @@
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
         <TypeScriptCompile Include="ClientApp\src\models\Goal.ts" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Services" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.OpenApi.Models;
+using Tenbo.Hubs;
 
 namespace Tenbo
 {
@@ -39,8 +40,10 @@ namespace Tenbo
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
+            
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+            services.AddSignalR();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Tenbo", Version = "v1"}); });
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -86,6 +89,7 @@ namespace Tenbo
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<VideoChatHub>("/socket/video-chat");
             });
 
             app.UseSpa(spa =>

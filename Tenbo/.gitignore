@@ -234,3 +234,5 @@ _Pvt_Extensions
 *.blob
 
 .idea
+
+appsettings.Development.json

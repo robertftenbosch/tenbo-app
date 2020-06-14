@@ -27,8 +27,8 @@ namespace Tenbo.Controllers
         [ProducesResponseType(typeof(List<TenboGoalsInfo>), StatusCodes.Status200OK)]
         public async Task<ActionResult<TenboGoalsInfo>> GetGoalsInfo()
         {
-            int numberOfGoals = await _context.Goal.CountAsync();
-            int numberOfActiveGoals = await _context.Goal.Where(x => x.IsActive).CountAsync();
+            var numberOfGoals = await _context.Goal.CountAsync();
+            var numberOfActiveGoals = await _context.Goal.Where(x => x.IsActive).CountAsync();
             var info = new TenboGoalsInfo
             {
                 NumberOfGoals = numberOfGoals,
